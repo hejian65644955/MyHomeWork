@@ -1,11 +1,13 @@
 package android.hejian.com.myhomework.fragment;
 
 import android.hejian.com.myhomework.R;
+import android.hejian.com.myhomework.bean.HomeBean;
 import android.hejian.com.myhomework.utils.Constants;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -48,11 +50,16 @@ public class FirstFragment extends BaseFragment {
 
                     @Override
                     public void onResponse(String response, int id) {
-                        Log.e("TAG", "联网请求成功"+response);
-                       // processData(response);
+                        Log.e("TAG", "联网请求成功");
+                       processData(response);
 
                     }
                 });
+    }
+
+    private void processData(String json) {
+        HomeBean homeBean = JSON.parseObject(json, HomeBean.class);
+        Log.e("TAG", "解析成功=="+homeBean.getResult().getRecommend_info().get(0).getName());
     }
 
 
