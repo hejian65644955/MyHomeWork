@@ -30,5 +30,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.alibaba:fastjson:1.1.55.android'
-
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.zhy:magic-viewpager:1.0.1'
+    compile project(':pullToRefreshList_library')
 }
