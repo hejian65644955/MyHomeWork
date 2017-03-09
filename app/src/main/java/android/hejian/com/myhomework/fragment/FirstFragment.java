@@ -3,9 +3,11 @@ package android.hejian.com.myhomework.fragment;
 import android.hejian.com.myhomework.R;
 import android.hejian.com.myhomework.adapter.HomeAdapter;
 import android.hejian.com.myhomework.bean.HomeBean;
+import android.hejian.com.myhomework.utils.CacheUtils;
 import android.hejian.com.myhomework.utils.Constants;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -35,6 +37,10 @@ public class FirstFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
+        String string = CacheUtils.getString(mContext, "atguigu");
+        if(!TextUtils.isEmpty(string)){
+            processData(string);
+        }
         getDataFromNet();
     }
 
@@ -52,8 +58,8 @@ public class FirstFragment extends BaseFragment {
                     @Override
                     public void onResponse(String response, int id) {
                         Log.e("TAG", "联网请求成功");
-                       processData(response);
-
+                        CacheUtils.putString(mContext,"atguigu",response);
+                        processData(response);
                     }
                 });
     }
@@ -66,15 +72,6 @@ public class FirstFragment extends BaseFragment {
         rvFirst.setAdapter(homeAdapter);
         //设置布局管理器
         rvFirst.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
-    /*    GridLayoutManager manager = new GridLayoutManager(mContext, 1);
-        rvFirst.setLayoutManager(manager);
-        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(){
-            @Override
-            public int getSpanSize(int position) {
-                return 1;
-            }
-        });*/
-
     }
 
 

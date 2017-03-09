@@ -3,7 +3,9 @@ package android.hejian.com.myhomework.fragment;
 import android.hejian.com.myhomework.R;
 import android.hejian.com.myhomework.adapter.ChannelAdapter;
 import android.hejian.com.myhomework.bean.HomeBean;
+import android.hejian.com.myhomework.utils.CacheUtils;
 import android.hejian.com.myhomework.utils.Constants;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -62,7 +64,7 @@ public class SecondFragment extends BaseFragment {
 
         @Override
         public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-            Toast.makeText(mContext, "上拉刷新", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "上拉加载更多", Toast.LENGTH_SHORT).show();
             getDataFromNet(url);
         }
     }
@@ -70,6 +72,10 @@ public class SecondFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
+        String string = CacheUtils.getString(mContext, "atguigu");
+        if(!TextUtils.isEmpty(string)){
+            processData(string);
+        }
         getDataFromNet(url);
     }
 
@@ -89,6 +95,7 @@ public class SecondFragment extends BaseFragment {
                     public void onResponse(String response, int id) {
                         Log.e("TAG", "联网请求成功"+response);
                         processData(response);
+                        CacheUtils.putString(mContext,"atguigu",response);
                         refreshListView.onRefreshComplete();
 
                     }
